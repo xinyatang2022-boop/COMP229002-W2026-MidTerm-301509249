@@ -3,7 +3,7 @@ let BookModel = require('../models/books');
 module.exports.getBook = async function (req, res, next) {
   try {
     // Find one using the id sent in the parameter of the request
-    let book = await BookModel.findOne({ _id: req.params.bookId });
+    let book = await BookModel.findOne({ _id: req.params.id });
 
     if (!book) {
       throw new Error('Book not found. Are you sure it exists?');
