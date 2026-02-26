@@ -7,12 +7,24 @@ module.exports.usersList = async function (req, res, next) {
         // Add your code here to retrieve the list of users from the database using the UsersModel.        
 
         // If the list is empty, throw an error. Otherwise, return the list as a JSON response.
+    let list = await UsersModel.find();
+
+    if (!list || list.length === 0) {
+      throw new Error('Users list is empty.');
+    }
+
+    res.json({
+      success: true,
+      message: "Users list retrieved successfully.",
+      data: list
+    });
+
     } catch (error) {
         console.log(error);
         next(error);
     }
 
-}
+};
 
 module.exports.getByID = async function (req, res, next) {
     try {
@@ -37,12 +49,21 @@ module.exports.processAdd = async (req, res, next) => {
  
         // Builds a new user from the values of the body of the request.
         // Add your code here to create a new user object using the UsersModel and the data from req.body
+        
+        let newUser = UsersModel(req.body);
+        let result = await UsersModel.create(newUser);
+
+    res.status(200).json({
+      success: true,
+      message: "User added successfully.",
+      data: result
+    });
 
     } catch (error) {
         console.log(error);
         next(error);
     }
-}
+};
 
 module.exports.processEdit = async (req, res, next) => {
     try {
